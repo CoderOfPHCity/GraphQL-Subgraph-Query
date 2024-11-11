@@ -1,0 +1,32 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: KlaytnDai
+    network: kaia
+    source:
+      address: "0x5c74070fdea071359b86082bd9f9b3deaafbe32b"
+      abi: KlaytnDai
+      startBlock: 169068359
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - SetOwner
+        - Transfer
+        - Approval
+      abis:
+        - name: KlaytnDai
+          file: ./abis/KlaytnDai.json
+      eventHandlers:
+        - event: SetOwner(address)
+          handler: handleSetOwner
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+      file: ./src/klaytn-dai.ts
